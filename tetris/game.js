@@ -379,7 +379,7 @@
       </div>
       <button class="primary" data-cmd="play">▶ Jugar</button>
       <p>${touch
-        ? 'Tocá el tablero para girar. Deslizá para mover. Deslizá rápido hacia abajo para tirar.'
+        ? 'Deslizá a los costados para mover. Deslizá hacia arriba o abajo para girar. Tocá dos veces para tirar la pieza.'
         : 'Flechas para mover y girar. Espacio para tirar la pieza.'}</p>`);
   }
 
@@ -643,33 +643,56 @@
     btn.addEventListener('contextmenu', (e) => e.preventDefault());
   });
 
-  // Gestos sobre el tablero: tocar = girar, deslizar = mover, deslizar rápido abajo = tirar
-  let g = null;
+  // Gestos sobre el tablero:
+  //   deslizar a los costados = mover, deslizar arriba = girar a la derecha,
+  //   deslizar abajo = girar a la izquierda, doble toque = tirar la pieza.
+  // El primer movimiento decide el eje, así al girar la pieza no se corre de lado.
+  let g = null, lastTap = null;
   board.addEventListener('pointerdown', (e) => {
     audio();
     if (state !== 'play') return;
-    g = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, t: performance.now(), ax: 0, ay: 0, moved: false };
+    g = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, axis: null, ax: 0, ay: 0, turned: false };
     board.setPointerCapture(e.pointerId);
   });
   board.addEventListener('pointermove', (e) => {
     if (!g || e.pointerId !== g.id || state !== 'play') return;
-    g.ax += e.clientX - g.x;
-    g.ay += e.clientY - g.y;
+    if (!g.axis) {
+      const tx = e.clientX - g.x0, ty = e.clientY - g.y0;
+      if (Math.hypot(tx, ty) < 12) return;
+      g.axis = Math.abs(tx) >= Math.abs(ty) ? 'x' : 'y';
+      g.ax = tx;
+      g.ay = ty;
+    } else {
+      g.ax += e.clientX - g.x;
+      g.ay += e.clientY - g.y;
+    }
     g.x = e.clientX;
     g.y = e.clientY;
-    const step = Math.max(18, cell * 0.9);
-    while (g.ax >= step) { move(1); g.ax -= step; g.moved = true; }
-    while (g.ax <= -step) { move(-1); g.ax += step; g.moved = true; }
-    while (g.ay >= step * 1.2) { softDrop(); g.ay -= step * 1.2; g.moved = true; }
-    if (g.ay < 0) g.ay = 0;
+    if (g.axis === 'x') {
+      const step = Math.max(18, cell * 0.9);
+      while (g.ax >= step) { move(1); g.ax -= step; }
+      while (g.ax <= -step) { move(-1); g.ax += step; }
+    } else {
+      const step = Math.max(40, cell * 2); // un giro por cada tramo deslizado
+      while (g.ay <= -step) { turn(1); g.ay += step; g.turned = true; }
+      while (g.ay >= step) { turn(-1); g.ay -= step; g.turned = true; }
+    }
   });
   const endGesture = (e) => {
     if (!g || e.pointerId !== g.id) return;
-    const dt = performance.now() - g.t;
-    const dx = e.clientX - g.x0, dy = e.clientY - g.y0;
+    const dy = e.clientY - g.y0;
     if (state === 'play') {
-      if (dy > cell * 3 && dt < 280 && Math.abs(dy) > Math.abs(dx) * 1.5) hardDrop();
-      else if (!g.moved && Math.hypot(dx, dy) < 12 && dt < 350) turn(1);
+      if (g.axis === 'y' && !g.turned) {
+        turn(dy < 0 ? 1 : -1); // deslizamiento corto: igual cuenta como un giro
+      } else if (!g.axis) {
+        const now = performance.now();
+        if (lastTap && now - lastTap.t < 350 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 50) {
+          hardDrop();
+          lastTap = null;
+        } else {
+          lastTap = { t: now, x: e.clientX, y: e.clientY };
+        }
+      }
     }
     g = null;
   };

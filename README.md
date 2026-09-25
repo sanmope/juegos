@@ -30,7 +30,7 @@ Para probarlo localmente, abrí `ajedrez/index.html` en el navegador.
 `tetris/` — el clásico de las piezas que caen:
 
 - Tres velocidades: 🐢 Tranquilo (nunca se acelera), 🙂 Normal y 🚀 Rápido. Récord separado para cada una.
-- En el celular: botones grandes en pantalla, o gestos sobre el tablero (tocar = girar, deslizar = mover, deslizar rápido hacia abajo = tirar).
+- En el celular: botones grandes en pantalla, o gestos sobre el tablero (deslizar a los costados = mover, deslizar arriba o abajo = girar, doble toque = tirar).
 - En la compu: flechas, espacio para tirar, C para guardar la pieza, P para pausa.
 - Sombra de dónde cae la pieza, próximas piezas, pieza guardada y la música de Korobeiniki (canción popular rusa, dominio público).
 
