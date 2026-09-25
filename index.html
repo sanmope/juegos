@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f2126">
+  <title>Juegos</title>
+  <style>
+    :root {
+      --bg: #1f2126;
+      --card: #2a2d34;
+      --text: #e8e6e3;
+      --muted: #9aa0a6;
+      --light: #eed9b6;
+      --accent: #f5b82e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      padding: max(24px, env(safe-area-inset-top)) 16px 32px;
+    }
+    main { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    h1 { margin: 0; font-size: 32px; }
+    p { margin: 0; color: var(--muted); font-size: 16px; }
+    .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .game {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--card);
+      border: 2px solid #3a3e47;
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .game:hover, .game:focus-visible { border-color: var(--accent); outline: none; }
+    .game .icon {
+      font-size: 44px;
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      background: var(--light);
+      color: #1a1a1a;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .game strong { display: block; font-size: 19px; }
+    .game span.desc { color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Juegos</h1>
+    <p>Elegí un juego para empezar.</p>
+    <div class="games">
+      <a class="game" href="ajedrez/">
+        <span class="icon">♞</span>
+        <span>
+          <strong>Ajedrez</strong>
+          <span class="desc">Jugá contra la compu y entrená con el Profe Caballito.</span>
+        </span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

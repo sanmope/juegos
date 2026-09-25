@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f2126">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ajedrez">
+  <title>Ajedrez</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <section class="board-area">
+      <div class="player" id="player-top"></div>
+      <div id="board" class="board"></div>
+      <div class="player" id="player-bottom"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="coach">
+        <div class="coach-head">
+          <div class="avatar" id="avatar">🐴</div>
+          <div class="coach-name">Profe Caballito</div>
+          <div class="coach-tools">
+            <button id="voice" class="icon-btn" title="Voz del profe">🗣️</button>
+            <button id="sfx" class="icon-btn" title="Sonidos">🔔</button>
+            <button id="repeat" class="icon-btn" title="Repetir lo que dijo">🔁</button>
+          </div>
+        </div>
+        <div id="coach-text" class="bubble"></div>
+        <div id="coach-actions" class="coach-actions"></div>
+        <button id="hint" class="hint-btn">💡 Pista</button>
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div class="tabs">
+        <button id="tab-play" class="tab active">🎮 Jugar</button>
+        <button id="tab-train" class="tab">🎓 Entrenar</button>
+      </div>
+
+      <div id="play-panel" class="section">
+        <label>Modo
+          <select id="mode">
+            <option value="ai-b" selected>Contra la compu (juego con blancas)</option>
+            <option value="ai-w">Contra la compu (juego con negras)</option>
+            <option value="pvp">2 jugadores</option>
+          </select>
+        </label>
+        <label>Dificultad
+          <select id="level">
+            <option value="0" selected>Muy fácil</option>
+            <option value="1">Fácil</option>
+            <option value="2">Media</option>
+            <option value="3">Difícil</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" id="coach-on" checked> El profe comenta las jugadas</label>
+
+        <div class="buttons">
+          <button id="new">Nueva partida</button>
+          <button id="undo">Deshacer</button>
+          <button id="flip">Girar tablero</button>
+        </div>
+
+        <h2>Jugadas</h2>
+        <ol id="moves" class="moves"></ol>
+
+        <h2>Partidas guardadas</h2>
+        <div class="buttons">
+          <button id="save">Guardar</button>
+          <button id="export">Exportar PGN</button>
+          <button id="import">Importar PGN</button>
+          <input id="import-file" type="file" accept=".pgn,text/plain" hidden>
+        </div>
+        <ul id="saves" class="saves"></ul>
+      </div>
+
+      <div id="train-panel" class="section" hidden></div>
+    </aside>
+  </main>
+
+  <div id="promo" class="promo hidden">
+    <div class="promo-box">
+      <p>Coronar como:</p>
+      <div id="promo-choices" class="promo-choices"></div>
+    </div>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="sound.js"></script>
+  <script src="coach.js"></script>
+  <script src="lessons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
