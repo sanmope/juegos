@@ -651,15 +651,16 @@
   board.addEventListener('pointerdown', (e) => {
     audio();
     if (state !== 'play') return;
-    g = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, axis: null, ax: 0, ay: 0, turned: false };
+    g = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, axis: null, ax: 0, ay: 0, turned: false, moved: false };
     board.setPointerCapture(e.pointerId);
   });
   board.addEventListener('pointermove', (e) => {
     if (!g || e.pointerId !== g.id || state !== 'play') return;
     if (!g.axis) {
       const tx = e.clientX - g.x0, ty = e.clientY - g.y0;
-      if (Math.hypot(tx, ty) < 12) return;
-      g.axis = Math.abs(tx) >= Math.abs(ty) ? 'x' : 'y';
+      if (Math.hypot(tx, ty) < 16) return;
+      // El pulgar casi nunca va derecho hacia arriba: se favorece el eje vertical.
+      g.axis = Math.abs(ty) >= Math.abs(tx) * 0.7 ? 'y' : 'x';
       g.ax = tx;
       g.ay = ty;
     } else {
@@ -668,10 +669,18 @@
     }
     g.x = e.clientX;
     g.y = e.clientY;
+    // Si arrancó de costado pero todavía no movió la pieza y el dedo sigue hacia arriba/abajo, pasa a girar.
+    if (g.axis === 'x' && !g.moved) {
+      const tx = e.clientX - g.x0, ty = e.clientY - g.y0;
+      if (Math.abs(ty) > Math.abs(tx) * 1.3) { g.axis = 'y'; g.ay = ty; }
+    }
     if (g.axis === 'x') {
+      // Mientras el dedo vaya tanto hacia arriba/abajo como de costado, todavía no se mueve la pieza.
+      const tx = e.clientX - g.x0, ty = e.clientY - g.y0;
+      if (!g.moved && Math.abs(ty) > Math.abs(tx) * 0.8) return;
       const step = Math.max(18, cell * 0.9);
-      while (g.ax >= step) { move(1); g.ax -= step; }
-      while (g.ax <= -step) { move(-1); g.ax += step; }
+      while (g.ax >= step) { move(1); g.ax -= step; g.moved = true; }
+      while (g.ax <= -step) { move(-1); g.ax += step; g.moved = true; }
     } else {
       const step = Math.max(40, cell * 2); // un giro por cada tramo deslizado
       while (g.ay <= -step) { turn(1); g.ay += step; g.turned = true; }
