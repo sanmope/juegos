@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#16241a">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Snake">
+  <title>Snake</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <header>
+    <a href="../" class="back">← Juegos</a>
+    <h1>Snake</h1>
+    <div class="tools">
+      <button id="sfx" class="icon-btn" title="Sonidos">🔔</button>
+    </div>
+  </header>
+
+  <div class="bar">
+    <div class="stat" title="Puntos">🍎 <span id="score">0</span></div>
+    <div class="stat muted" title="Récord">🏆 <span id="best">0</span></div>
+    <button id="pause" class="pause-btn" title="Pausa">⏸</button>
+  </div>
+
+  <div class="game">
+    <div class="well" id="well">
+      <canvas id="board"></canvas>
+      <div id="overlay" class="overlay"></div>
+    </div>
+    <div class="keys">
+      <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> o <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> para moverte · <kbd>P</kbd> pausa
+    </div>
+  </div>
+
+  <div class="dpad">
+    <button data-dir="up" class="up" title="Arriba">▲</button>
+    <button data-dir="left" class="left" title="Izquierda">◀</button>
+    <button data-dir="down" class="down" title="Abajo">▼</button>
+    <button data-dir="right" class="right" title="Derecha">▶</button>
+  </div>
+
+  <script src="game.js?v=1"></script>
+</body>
+</html>

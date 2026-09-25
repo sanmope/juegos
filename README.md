@@ -35,3 +35,15 @@ Para probarlo localmente, abrí `ajedrez/index.html` en el navegador.
 - Sombra de dónde cae la pieza, próximas piezas, pieza guardada y la música de Korobeiniki (canción popular rusa, dominio público).
 
 Todo el juego está en `game.js`: lógica, dibujo en canvas, sonidos y música con Web Audio.
+
+## Snake
+
+`snake/` — la víbora que crece comiendo manzanas:
+
+- Tres velocidades: 🐢 Tranquilo (siempre igual), 🙂 Normal (acelera al comer) y 🚀 Rápido.
+- Paredes: 🌀 Atravesar (sale por un lado y aparece por el otro) o 🧱 Chocar. Récord separado para cada combinación.
+- La víbora espera quieta hasta que elegís la primera dirección; al volver de la pausa también.
+- Manzanas 🍎 valen 1; cada 5 manzanas aparece una ⭐ que vale 3 y desaparece a los 7 segundos.
+- En el celular: deslizar el dedo en cualquier dirección o las flechas grandes. En la compu: flechas o W A S D, P para pausa.
+
+Todo el juego está en `game.js`.
