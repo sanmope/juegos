@@ -54,6 +54,7 @@
       border-radius: 12px;
       flex-shrink: 0;
     }
+    img.icon { object-fit: cover; }
     .game strong { display: block; font-size: 19px; }
     .game span.desc { color: var(--muted); font-size: 14px; }
   </style>
@@ -64,10 +65,17 @@
     <p>Elegí un juego para empezar.</p>
     <div class="games">
       <a class="game" href="ajedrez/">
-        <span class="icon">♞</span>
+        <img class="icon" src="ajedrez/icon-192.png" alt="">
         <span>
           <strong>Ajedrez</strong>
           <span class="desc">Jugá contra la compu y entrená con el Profe Caballito.</span>
+        </span>
+      </a>
+      <a class="game" href="tetris/">
+        <img class="icon" src="tetris/icon-192.png" alt="">
+        <span>
+          <strong>Tetris</strong>
+          <span class="desc">Acomodá las piezas y completá filas. ¡Con modo tranquilo!</span>
         </span>
       </a>
     </div>

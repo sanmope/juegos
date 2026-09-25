@@ -1,0 +1,253 @@
+:root {
+  color-scheme: dark;
+  --bg: #171a2b;
+  --panel: #232842;
+  --panel-2: #2d3354;
+  --text: #eef0ff;
+  --muted: #9aa3c7;
+  --accent: #f7d038;
+  --well: #0e1020;
+  --side: clamp(96px, 16vw, 150px);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Encabezado ---------- */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px 4px;
+}
+.back { color: var(--muted); text-decoration: none; font-size: 15px; padding: 6px 0; }
+header h1 { margin: 0; font-size: 22px; letter-spacing: .06em; }
+.tools { margin-left: auto; display: flex; gap: 6px; }
+.icon-btn { width: 40px; height: 40px; font-size: 18px; background: transparent; }
+.icon-btn.off { opacity: .3; }
+
+/* ---------- Juego ---------- */
+
+.game {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--side) minmax(0, auto) var(--side);
+  justify-content: center;
+  gap: 12px;
+  padding: 6px 12px 10px;
+}
+
+.side { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+.box {
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.box h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+.box canvas { display: block; width: 100%; }
+.hold canvas { aspect-ratio: 4 / 3; }
+.next canvas { aspect-ratio: 4 / 7; }
+
+.stats { gap: 8px; }
+.stat .value {
+  font-size: clamp(17px, 2.4vw, 24px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.pause-btn { height: 48px; font-size: 20px; }
+
+.keys { color: var(--muted); font-size: 12px; display: flex; flex-direction: column; gap: 5px; }
+kbd {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 5px;
+  margin-right: 3px;
+  border-radius: 5px;
+  background: var(--panel-2);
+  color: var(--text);
+  font: 600 11px/1.5 ui-monospace, Menlo, monospace;
+  text-align: center;
+}
+
+.well {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  width: min(60vw, 520px, calc((100vh - 70px) / 2));
+  width: min(60vw, 520px, calc((100dvh - 70px) / 2));
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+#board {
+  display: block;
+  border-radius: 8px;
+  background: var(--well);
+  box-shadow: 0 0 0 3px var(--panel-2), 0 14px 32px rgba(0, 0, 0, .5);
+  touch-action: none; /* los gestos del dedo mueven la pieza, no la página */
+}
+.well.shake #board { animation: shake .18s; }
+@keyframes shake { 50% { transform: translateY(5px); } }
+
+/* ---------- Carteles (inicio, pausa, fin) ---------- */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.overlay[hidden] { display: none; }
+.card {
+  width: min(100%, 300px);
+  background: rgba(23, 26, 43, .94);
+  border: 2px solid var(--panel-2);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+.card h2 { margin: 0; font-size: 26px; }
+.card p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.4; }
+.card .big-score { font-size: 38px; font-weight: 900; color: var(--accent); font-variant-numeric: tabular-nums; }
+.speeds { display: flex; flex-direction: column; gap: 6px; }
+.speeds button {
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  border: 2px solid transparent;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.speeds button small { color: var(--muted); font-weight: 600; font-size: 13px; align-self: center; }
+.speeds button.active { border-color: var(--accent); background: #3a3552; }
+.primary {
+  padding: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  background: var(--accent);
+  color: #2a2200;
+}
+.secondary { padding: 10px; font-size: 16px; font-weight: 700; }
+
+/* ---------- Botones táctiles ---------- */
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  padding: 6px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.controls button {
+  height: clamp(54px, 9vh, 76px);
+  font-size: 26px;
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .3);
+}
+.controls button.big { background: #3f4a8a; font-size: 32px; }
+.controls button.pressed { transform: translateY(2px); box-shadow: none; background: var(--panel-2); }
+
+/* Con mouse y teclado no hacen falta los botones; se muestran las teclas. */
+@media (hover: hover) and (pointer: fine) {
+  .controls { display: none; }
+}
+@media not ((hover: hover) and (pointer: fine)) {
+  .keys { display: none; }
+}
+
+/* ---------- Celular vertical: datos arriba, tablero grande ---------- */
+
+@media (max-width: 640px) {
+  header { padding: 6px 12px 2px; }
+  header h1 { font-size: 19px; }
+  .game {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "left right" "well well";
+    gap: 8px;
+    padding: 4px 10px 6px;
+  }
+  .side.left { grid-area: left; flex-direction: row; }
+  .side.right { grid-area: right; flex-direction: row; align-items: stretch; }
+  .well { grid-area: well; width: 100%; justify-content: center; }
+  .box { padding: 6px 8px; }
+  .hold { width: 64px; flex-shrink: 0; }
+  .stats { flex: 1; flex-direction: row; justify-content: space-around; align-items: center; gap: 6px; }
+  .stats .record { display: none; }
+  .stat { text-align: center; }
+  .stat .value { font-size: clamp(14px, 4.4vw, 18px); }
+  .box h2 { font-size: 10px; letter-spacing: .05em; }
+  .next { width: 92px; }
+  .next canvas { aspect-ratio: 2 / 1; }
+  .pause-btn { width: 44px; height: auto; }
+}
+
+/* ---------- Celular horizontal ---------- */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  header { display: none; }
+  .game { padding-top: 8px; }
+  .well { width: min(60vw, calc((100dvh - 20px) / 2)); }
+  .next canvas { aspect-ratio: 1; }
+  .hold canvas { aspect-ratio: 2 / 1; }
+  .stats { gap: 4px; }
+  .stats .record { display: none; }
+  .stat .value { font-size: 16px; }
+  /* Botones a los costados del tablero: 3 a la izquierda y 3 a la derecha */
+  .controls { position: fixed; inset: auto 0 0 0; pointer-events: none; display: flex; gap: 8px; }
+  .controls button { pointer-events: auto; width: 60px; height: 56px; }
+  .controls button:nth-child(3) { margin-right: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .well.shake #board { animation: none; }
+}

@@ -24,3 +24,14 @@ Todo es HTML, CSS y JavaScript sin dependencias:
 | `app.js` | Interfaz: tablero, pistas, entrenamiento y guardado |
 
 Para probarlo localmente, abrí `ajedrez/index.html` en el navegador.
+
+## Tetris
+
+`tetris/` — el clásico de las piezas que caen:
+
+- Tres velocidades: 🐢 Tranquilo (nunca se acelera), 🙂 Normal y 🚀 Rápido. Récord separado para cada una.
+- En el celular: botones grandes en pantalla, o gestos sobre el tablero (tocar = girar, deslizar = mover, deslizar rápido hacia abajo = tirar).
+- En la compu: flechas, espacio para tirar, C para guardar la pieza, P para pausa.
+- Sombra de dónde cae la pieza, próximas piezas, pieza guardada y la música de Korobeiniki (canción popular rusa, dominio público).
+
+Todo el juego está en `game.js`: lógica, dibujo en canvas, sonidos y música con Web Audio.
