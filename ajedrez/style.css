@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark; /* la página ya es oscura: evita que el navegador la "oscurezca" e invierta las piezas */
   --bg: #1f2126;
   --panel: #2a2d34;
   --text: #e8e6e3;
@@ -122,6 +123,9 @@ body {
 @keyframes shake {
   20%, 60% { transform: translateX(-5px); }
   40%, 80% { transform: translateX(5px); }
+}
+.piece {
+  forced-color-adjust: none;
 }
 .piece.w {
   color: #fff;
